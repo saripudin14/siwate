@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SIWATE</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+    
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Branding -->
+                <div class="flex items-center">
+                    <a asp-controller="Home" asp-action="Index" class="flex-shrink-0 flex items-center gap-2">
+                        <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+                        <span class="font-bold text-xl tracking-tight text-slate-900">SIWATE</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-4">
+                    <a asp-controller="Home" asp-action="Index" class="text-slate-500 hover:text-brand-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Beranda</a>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("admin"))
+                        {
+                            <a asp-controller="Admin" asp-action="Index" class="bg-slate-100 text-slate-900 px-3 py-2 rounded-md text-sm font-medium">Admin Panel</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Interview" asp-action="Index" class="bg-brand-50 text-brand-700 px-3 py-2 rounded-md text-sm font-medium">Mulai Simulasi</a>
+                            <a asp-controller="Interview" asp-action="History" class="text-slate-500 hover:text-brand-600 px-3 py-2 rounded-md text-sm font-medium">Riwayat</a>
+                        }
+
+                        <div class="ml-2 relative group">
+                            <span class="text-sm font-semibold text-slate-700">@User.Identity.Name</span>
+                            <a asp-controller="Account" asp-action="Logout" class="ml-4 text-sm text-red-600 hover:text-red-700 font-medium">Keluar</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="text-slate-500 hover:text-brand-600 font-medium text-sm">Masuk</a>
+                        <a asp-controller="Account" asp-action="Register" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all hover:shadow-md">Daftar Sekarang</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-slate-400">
+                &copy; 2025 SIWATE - Simulasi Wawancara Kerja Berbasis AI
+            </p>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

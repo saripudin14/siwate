@@ -1,0 +1,68 @@
+@model Siwate.Web.Models.InterviewResult
+
+@{
+    ViewData["Title"] = "Hasil Evaluasi";
+    string scoreColor = Model.Score >= 80 ? "text-emerald-500" : (Model.Score >= 60 ? "text-yellow-500" : "text-red-500");
+    string borderColor = Model.Score >= 80 ? "border-emerald-200" : (Model.Score >= 60 ? "border-yellow-200" : "border-red-200");
+    string bgColor = Model.Score >= 80 ? "bg-emerald-50" : (Model.Score >= 60 ? "bg-yellow-50" : "bg-red-50");
+}
+
+<div class="max-w-3xl mx-auto py-8">
+    
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-slate-800">Hasil Evaluasi</h1>
+        <p class="text-slate-500">Berikut adalah analisis jawaban Anda</p>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        
+        <!-- Score Header -->
+        <div class="text-center py-10 border-b border-slate-100 @bgColor">
+            <div class="inline-flex items-center justify-center w-32 h-32 rounded-full border-4 bg-white @borderColor relative mb-4">
+                <span class="text-5xl font-bold @scoreColor">@Model.Score</span>
+                <span class="absolute top-0 right-0 -mr-2 -mt-2 bg-white rounded-full p-1 shadow-sm border border-slate-100">
+                    <svg class="w-6 h-6 @scoreColor" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                </span>
+            </div>
+            <h2 class="text-xl font-semibold text-slate-800">Skor Keseluruhan</h2>
+        </div>
+
+        <div class="p-8 space-y-8">
+            <!-- Feedback -->
+            <div>
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wide mb-3">Feedback AI</h3>
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <p class="text-slate-700 leading-relaxed font-medium">"@Model.Feedback"</p>
+                </div>
+            </div>
+
+            <!-- Detail Jawaban (Review) -->
+            <div class="border-t border-slate-100 pt-8">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wide mb-4">Detail Sesi</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-xs text-slate-400 mb-1">Pertanyaan</p>
+                        <p class="text-slate-800 font-semibold">@Model.Answer.Question.QuestionText</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 mb-1">Jawaban Anda</p>
+                        <p class="text-slate-600 bg-white p-4 rounded-lg border border-slate-200 italic">
+                            "@Model.Answer.AnswerText"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                <a asp-action="Start" class="flex-1 text-center bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-lg shadow-sm transition-colors">
+                    Coba Lagi
+                </a>
+                <a asp-action="History" class="flex-1 text-center bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 rounded-lg transition-colors">
+                    Lihat Riwayat
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

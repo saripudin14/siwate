@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Masuk";
+}
+
+<div class="min-h-[80vh] flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-100">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Selamat Datang</h2>
+            <p class="text-slate-500">Masuk untuk melanjutkan simulasi</p>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700">@ViewBag.Error</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <form asp-action="Login" method="post" class="space-y-6">
+            <div>
+                <label for="email" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                <input type="email" name="email" id="email" required 
+                    class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all"
+                    placeholder="nama@email.com">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                <input type="password" name="password" id="password" required 
+                    class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all"
+                    placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+                Masuk Sekarang
+            </button>
+        </form>
+
+        <div class="mt-8 text-center text-sm text-slate-500">
+            Belum punya akun? 
+            <a asp-action="Register" class="text-brand-600 hover:text-brand-700 font-semibold hover:underline">Daftar disini</a>
+        </div>
+    </div>
+</div>

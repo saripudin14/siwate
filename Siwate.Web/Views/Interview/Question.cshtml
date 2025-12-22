@@ -1,0 +1,44 @@
+@model Siwate.Web.Models.Question
+
+@{
+    ViewData["Title"] = "Pertanyaan Wawancara";
+}
+
+<div class="max-w-2xl mx-auto py-8">
+    <div class="flex items-center justify-between mb-6">
+        <span class="bg-brand-100 text-brand-700 px-3 py-1 rounded-full text-sm font-semibold">Sesi Wawancara</span>
+        <span class="text-slate-400 text-sm">Pertanyaan #@Model.Id.GetHashCode().ToString().Substring(0, 4)</span>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-8">
+        <div class="p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6 leading-relaxed">
+                "@Model.QuestionText"
+            </h2>
+
+            <form asp-action="SubmitAnswer" method="post">
+                <input type="hidden" name="questionId" value="@Model.Id" />
+                
+                <div class="mb-6">
+                    <label for="answerText" class="block text-sm font-medium text-slate-700 mb-2">Jawaban Anda:</label>
+                    <textarea name="answerText" id="answerText" rows="6" 
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all text-slate-700"
+                        placeholder="Ketik jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <a href="javascript:history.back()" class="text-slate-500 hover:text-slate-700 font-medium text-sm">
+                        Kembali
+                    </a>
+                    <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-6 py-2 rounded-lg shadow-sm hover:shadow-md transition-all">
+                        Kirim Jawaban
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="text-center text-slate-400 text-sm">
+        <p>Tenang, ambil waktu Anda. Tidak ada batasan waktu.</p>
+    </div>
+</div>

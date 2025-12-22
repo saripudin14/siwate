@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Dashboard Admin";
+    Layout = "_AdminLayout";
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    
+    <!-- Card Pertanyaan -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500">Total Pertanyaan</p>
+                <h3 class="text-3xl font-bold text-slate-800 mt-2">@ViewBag.QuestionCount</h3>
+            </div>
+            <div class="p-3 bg-blue-100 rounded-lg text-blue-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a asp-action="Questions" class="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline">Kelola Pertanyaan &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Card Dataset -->
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500">Dataset Training</p>
+                <h3 class="text-3xl font-bold text-slate-800 mt-2">@ViewBag.DatasetCount</h3>
+            </div>
+            <div class="p-3 bg-purple-100 rounded-lg text-purple-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a asp-action="Datasets" class="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline">Kelola Dataset &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Card Model Info (Static Example) -->
+     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-slate-500">Status Model</p>
+                <h3 class="text-3xl font-bold text-emerald-600 mt-2">Ready</h3>
+            </div>
+            <div class="p-3 bg-emerald-100 rounded-lg text-emerald-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+        </div>
+        <div class="mt-4">
+             <span class="text-sm text-slate-400">Siap untuk prediksi</span>
+        </div>
+    </div>
+</div>
+
+

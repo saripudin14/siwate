@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Beranda";
+}
+
+<div class="text-center py-16 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+        Simulasi Wawancara <span class="text-brand-600">Cerdas</span>
+    </h1>
+    <p class="mt-4 max-w-2xl mx-auto text-xl text-slate-500">
+        Latih jawaban wawancara kerja Anda dengan bantuan AI. Dapatkan penilaian instan dan feedback yang membangun untuk meningkatkan peluang karir Anda.
+    </p>
+    <div class="mt-10 flex justify-center gap-4">
+        @if (User.Identity.IsAuthenticated)
+        {
+             <a asp-controller="Interview" asp-action="Index" class="px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-brand-600 hover:bg-brand-700 md:py-4 md:text-lg md:px-10 shadow-lg hover:shadow-xl transition-all">
+                Mulai Simulasi
+            </a>
+            <a asp-controller="Interview" asp-action="History" class="px-8 py-3 border border-transparent text-base font-medium rounded-full text-brand-700 bg-brand-100 hover:bg-brand-200 md:py-4 md:text-lg md:px-10 transition-all">
+                Lihat Riwayat
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Register" class="px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-brand-600 hover:bg-brand-700 md:py-4 md:text-lg md:px-10 shadow-lg hover:shadow-xl transition-all">
+                Daftar Sekarang
+            </a>
+            <a asp-controller="Account" asp-action="Login" class="px-8 py-3 border border-transparent text-base font-medium rounded-full text-brand-700 bg-brand-100 hover:bg-brand-200 md:py-4 md:text-lg md:px-10 transition-all">
+                Masuk
+            </a>
+        }
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <!-- Feature 1 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-100 hover:shadow-lg transition-shadow">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 text-blue-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Pertanyaan Realistis</h3>
+            <p class="text-slate-500">Kumpulan pertanyaan yang sering muncul dalam wawancara kerja professional.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-100 hover:shadow-lg transition-shadow">
+            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 text-indigo-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Penilaian AI</h3>
+            <p class="text-slate-500">Analisis jawaban menggunakan Machine Learning untuk memberikan skor objektif.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="bg-white rounded-xl shadow-md p-6 border border-slate-100 hover:shadow-lg transition-shadow">
+            <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 text-emerald-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">Feedback Membangun</h3>
+            <p class="text-slate-500">Dapatkan saran perbaikan untuk meningkatkan kualitas jawaban Anda.</p>
+        </div>
+    </div>
+</div>

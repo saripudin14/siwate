@@ -1,0 +1,58 @@
+@model IEnumerable<Siwate.Web.Models.Question>
+
+@{
+    ViewData["Title"] = "Kelola Pertanyaan";
+    Layout = "_AdminLayout";
+}
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200">
+    <div class="p-6 border-b border-slate-200 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-slate-800">Daftar Pertanyaan Wawancara</h2>
+    </div>
+    
+    <!-- Add Form -->
+    <div class="p-6 bg-slate-50 border-b border-slate-200">
+        <form asp-action="AddQuestion" method="post" class="flex gap-4">
+            <input type="text" name="questionText" required
+                class="flex-1 px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+                placeholder="Tulis pertanyaan wawancara baru...">
+            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                Tambah
+            </button>
+        </form>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-slate-50 text-slate-500 text-sm uppercase tracking-wider">
+                    <th class="px-6 py-4 font-semibold">Pertanyaan</th>
+                    <th class="px-6 py-4 font-semibold w-24">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                @foreach (var item in Model)
+                {
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-6 py-4 text-slate-700">@item.QuestionText</td>
+                        <td class="px-6 py-4">
+                            <form asp-action="DeleteQuestion" method="post" onsubmit="return confirm('Hapus pertanyaan ini?');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="p-12 text-center text-slate-400">
+            Belum ada pertanyaan. Tambahkan pertanyaan pertama Anda di atas.
+        </div>
+    }
+</div>
