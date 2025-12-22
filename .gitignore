@@ -169,7 +169,7 @@ bower_components/
 
 # Environment & Settings
 appsettings.Development.json
-# appsettings.json ## (Optional: uncomment if you don't want to commit sensitive production keys)
+appsettings.json
 .env
 
 # MacOS
