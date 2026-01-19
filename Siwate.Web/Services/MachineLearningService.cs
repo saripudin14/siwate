@@ -60,24 +60,14 @@ namespace Siwate.Web.Services
 
         public float Predict(string answerText)
         {
-            if (_model == null)
-            {
-                // Fallback or throw if model not trained
-                return 0;
-            }
+            // Legacy method
+            return 0;
+        }
 
-            var predictionEngine = _mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(_model);
-
-            var input = new ModelInput
-            {
-                AnswerText = answerText,
-                TextLength = answerText.Length
-            };
-
-            var prediction = predictionEngine.Predict(input);
-            
-            // Clamp score between 0 and 100
-            return Math.Max(0, Math.Min(100, prediction.Score));
+        public Task<(float Score, string Feedback)> PredictAsync(string questionText, string answerText)
+        {
+            // Not implemented for legacy service
+            return Task.FromResult((0f, "Legacy service does not support async prediction."));
         }
     }
 }

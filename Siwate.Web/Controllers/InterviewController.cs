@@ -67,22 +67,18 @@ namespace Siwate.Web.Controllers
             await _context.SaveChangesAsync();
 
             // 2. Predict Score
-            float predictedScore = _mlService.Predict(answerText);
-            int score = (int)Math.Round(predictedScore);
+            // 2. Predict Score & Feedback via Gemini (Async)
+            var questionObj = await _context.Questions.FindAsync(questionId);
+            var aiResult = await _mlService.PredictAsync(questionObj.QuestionText, answerText);
 
-            // 3. Generate Feedback
-            string feedback;
-            if (score >= 80) feedback = "Luar biasa! Jawaban Anda sangat relevan dan terstruktur dengan baik.";
-            else if (score >= 60) feedback = "Cukup baik, namun bisa lebih mendetail pada poin-poin kunci.";
-            else feedback = "Jawaban perlu perbaikan. Cobalah untuk lebih spesifik dan relevan dengan pertanyaan.";
-
-            // 4. Save Result
+            // 4. Simpan Hasil
             var result = new InterviewResult
             {
                 UserId = userId,
                 AnswerId = answer.Id,
-                Score = score,
-                Feedback = feedback
+                Score = (int)Math.Round(aiResult.Score),
+                Feedback = aiResult.Feedback,
+                CreatedAt = DateTime.UtcNow
             };
             _context.InterviewResults.Add(result);
             await _context.SaveChangesAsync();
@@ -116,6 +112,33 @@ namespace Siwate.Web.Controllers
                 .ToListAsync();
 
             return View(history);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var result = await _context.InterviewResults
+                .Include(r => r.Answer) // Include Answer to delete it too if needed (cascade usually handles this but safety first)
+                .FirstOrDefaultAsync(r => r.Id == id && r.UserId == userId);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            // Optional: Delete the Answer entry associated with this result to keep DB clean
+            if (result.Answer != null)
+            {
+                _context.Answers.Remove(result.Answer);
+            }
+
+            _context.InterviewResults.Remove(result);
+            await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Riwayat berhasil dihapus.";
+            return RedirectToAction(nameof(History));
         }
     }
 }

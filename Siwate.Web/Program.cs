@@ -14,7 +14,8 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
         options.AccessDeniedPath = "/Account/AccessDenied";
     });
 
-builder.Services.AddSingleton<Siwate.Web.Services.IMachineLearningService, Siwate.Web.Services.MachineLearningService>();
+// Register Services
+builder.Services.AddScoped<Siwate.Web.Services.IMachineLearningService, Siwate.Web.Services.GeminiService>();
 
 var app = builder.Build();
 

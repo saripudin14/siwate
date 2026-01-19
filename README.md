@@ -54,25 +54,25 @@ Sistem ini menggunakan arsitektur **MVC (Model-View-Controller)** yang terstrukt
 
 ---
 
-## 🤖 Machine Learning
+## 🤖 Artificial Intelligence (Google Gemini API)
 
-Aplikasi ini menggunakan framework **ML.NET** dari Microsoft.
+Aplikasi ini menggunakan **Generative AI (LLM)** melalui Google Gemini API untuk analisis jawaban yang lebih cerdas dan kontekstual.
 
-### Spesifikasi Model
-*   **Algorithm**: **Online Gradient Descent (SDCA Regression)**. Algoritma regresi linier yang efisien untuk memprediksi nilai numerik (skor).
-*   **Task**: Regression (Prediksi Skor 0-100).
-*   **Training Process**: Offline training (dipicu oleh Admin). Sistem membaca data dari tabel `datasets`, melatih model, dan menyimpan hasilnya sebagai file `interview_model.zip`.
+### Keunggulan Dibandingkan Traditional ML
+*   **Pemahaman Konteks**: AI memahami makna pertanyaan dan jawaban, bukan hanya mencocokkan kata kunci.
+*   **Deteksi Bahasa**: Sistem dapat mendeteksi jika jawaban tidak menggunakan Bahasa Indonesia yang baik dan benar.
+*   **Anti-Cheating**: AI dilatih untuk mendeteksi jawaban asal-asalan (gibberish) meskipun panjang.
 
-### Feature Engineering
-Model tidak membaca teks mentah begitu saja. Jawaban pengguna diproses melalui pipeline ekstraksi fitur:
-1.  **FeaturizeText ("AnswerText")**: Mengubah teks jawaban menjadi vektor numerik menggunakan teknik **TF-IDF** (Term Frequency-Inverse Document Frequency). Ini membantu model memahami kata-kata kunci penting.
-2.  **Concatenate**: Menggabungkan fitur teks dengan fitur tambahan (misal: panjang karakter) untuk akurasi yang lebih baik.
-
-### Alur Prediksi
-1.  User submit jawaban (String).
-2.  Backend memuat model dari `interview_model.zip`.
-3.  Model memprediksi angka (Score).
-4.  Backend mengonversi Score menjadi Feedback naratif (misal: >80 = "Luar Biasa").
+### Alur Penilaian AI
+1.  User submit jawaban.
+2.  Sistem mengirimkan **Prompt** khusus ke Gemini API yang berisi:
+    *   Peran: "Asisten HRD Profesional"
+    *   Teks Pertanyaan
+    *   Teks Jawaban Kandidat
+    *   Instruksi Penilaian (Validasi bahasa, relevansi, metode STAR)
+3.  Gemini API mengembalikan respons dalam format **JSON** yang berisi:
+    *   `score`: Nilai numerik (0-100)
+    *   `feedback`: Saran perbaikan yang spesifik dan membangun.
 
 ---
 
@@ -82,7 +82,8 @@ Model tidak membaca teks mentah begitu saja. Jawaban pengguna diproses melalui p
 *   **Language**: C#
 *   **Database**: PostgreSQL 15 (Supabase)
 *   **ORM**: Entity Framework Core 9.0
-*   **Machine Learning**: ML.NET 4.0
+*   **Artificial Intelligence**: Google Gemini API (Model: gemini-1.5-flash)
+*   **HTTP Client**: System.Net.Http
 *   **CSS Framework**: Tailwind CSS (via CDN)
 *   **IDE**: Visual Studio Code / Visual Studio 2022
 
@@ -161,12 +162,10 @@ Proyek ini menggunakan **Supabase** sebagai layanan Backend-as-a-Service (BaaS) 
 
 ## ⚠️ Catatan Penting
 
-1.  **Training Model Pertama Kali**:
-    Saat pertama kali dijalankan, model mungkin belum akurat atau belum ada.
-    *   Login sebagai Admin.
-    *   Masuk ke menu **Dataset**.
-    *   Pastikan ada minimal 5 data.
-    *   Klik **"Latih Model Sekarang"** agar file `interview_model.zip` terbentuk.
+1.  **Konfigurasi API Key**:
+    Aplikasi memerlukan API Key Google Gemini agar fitur penilaian berfungsi.
+    *   Dapatkan API Key di [Google AI Studio](https://aistudio.google.com/).
+    *   Masukkan Key ke `appsettings.json` pada bagian `GeminiApiKey`.
 
 2.  **Keamanan**:
     Password user saat ini disimpan dalam bentuk *plain-text* untuk tujuan simulasi/pembelajaran. Untuk produksi, **WAJIB** menggunakan hashing (BCrypt/Argon2).

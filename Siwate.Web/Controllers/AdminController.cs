@@ -56,56 +56,6 @@ namespace Siwate.Web.Controllers
             return RedirectToAction("Questions");
         }
 
-        public async Task<IActionResult> Datasets()
-        {
-            var datasets = await _context.Datasets.OrderByDescending(d => d.CreatedAt).ToListAsync();
-            return View(datasets);
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> AddDataset(string answerText, int score)
-        {
-            if (!string.IsNullOrWhiteSpace(answerText))
-            {
-                _context.Datasets.Add(new Dataset { AnswerText = answerText, Score = score });
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction("Datasets");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteDataset(Guid id)
-        {
-            var d = await _context.Datasets.FindAsync(id);
-            if (d != null)
-            {
-                _context.Datasets.Remove(d);
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction("Datasets");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> TrainModel()
-        {
-            var data = await _context.Datasets.ToListAsync();
-            if (data.Count < 5)
-            {
-                TempData["Message"] = "Dataset terlalu sedikit (minimal 5).";
-                return RedirectToAction("Index");
-            }
-
-            try
-            {
-                _mlService.Train(data);
-                TempData["Message"] = "Model berhasil dilatih!";
-            }
-            catch (Exception ex)
-            {
-                 TempData["Message"] = "Error training model: " + ex.Message;
-            }
-
-            return RedirectToAction("Index");
-        }
     }
 }
